@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react';
 import { BrowserRouter as Router, Switch,Route,Link } from 'react-router-dom';
+import CrudDemo from './CrudDemo';
 
 const DemoRouter = () => {
     return (
@@ -12,9 +13,11 @@ const DemoRouter = () => {
                     <Route path="/about" component={About}/>
                     <Route path="/home" component={Home}/>
                     <Route path="/person" component={Person}/>
+                    <Route path="/crud" component={CrudDemo}/>
+
+                    <Route component={NotFound}/>
                 </Switch>
                 </Router>  
-
             </div>
         </Fragment>
     );
@@ -43,7 +46,9 @@ const Header=()=>{
                     <li className='nav-item'>
                         <Link className='navbar-brand' to="/person">Person</Link>
                     </li>
-
+                    <li className='nav-item'>
+                        <Link className='navbar-brand' to="/crud">CRUD</Link>
+                    </li>
                 </ul>
                 <Link type='button' className='btn btn-primary'>Sign Up</Link>
             </div>
