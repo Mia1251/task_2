@@ -32,6 +32,10 @@ const CrudDemo = () => {
     };
 
     const TableAction = (props) => {
+      const deleteById=()=>{
+
+      }
+      
       const history=useHistory();
       const ShowPersonInfo=()=>{
                    
@@ -42,7 +46,7 @@ const CrudDemo = () => {
       return (
         <div>
           <button type="button" className="btn btn-primary" onClick={ShowPersonInfo}>Details</button>
-          <button type="button" className="btn btn-danger m-1">Delete</button>
+          <button type="button" className="btn btn-danger m-1" onClick={deleteById}>Delete</button>
           <button type="button" className="btn btn-warning">Edit</button>
         </div>
       )
