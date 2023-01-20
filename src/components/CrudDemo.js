@@ -1,12 +1,19 @@
+
 import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
+import PeopleService from '../service/PeopleService';
+
 
 const CrudDemo = () => {
 
-  const [persons, setPersons] = useState([{id:1,firstName:"Charles",lastName:" Rudahusha",email: "crud@lexicon.se"},
-{id: 2, firstName: "Tobias", lastName: " Lundgren", email: "tobbe@lexicon.se"}]);
+  const [persons, setPersons] = useState([]);
 
   useEffect(() => {
-
+    const service = new PeopleService();
+    service.findAllPeople().then(response=>{
+      setPersons(response.data);
+    });
+   
   }, []);
 
   const Table = () => {
@@ -24,10 +31,17 @@ const CrudDemo = () => {
       );
     };
 
-    const TableAction = () => {
+    const TableAction = (props) => {
+      const history=useHistory();
+      const ShowPersonInfo=()=>{
+                   
+//history.push("/details/"+props.id); 
+    history.push(`/details/${props.id}`); // to pass id proparties to the variable we use bt ´´   
+
+      }
       return (
         <div>
-          <button type="button" className="btn btn-primary">Details</button>
+          <button type="button" className="btn btn-primary" onClick={ShowPersonInfo}>Details</button>
           <button type="button" className="btn btn-danger m-1">Delete</button>
           <button type="button" className="btn btn-warning">Edit</button>
         </div>
@@ -41,9 +55,9 @@ const CrudDemo = () => {
             persons.map( (person) => (
               <tr key={person.id}>
                 <td>{person.id}</td>
-                <td>{person.firstName}{person.lastName}</td>
+                <td>{person.firstName} {person.lastName}</td>
                 <td>{person.email}</td>
-                <td><TableAction /></td>
+                <td><TableAction id={person.id} /></td>
               </tr>
             ))
           }
