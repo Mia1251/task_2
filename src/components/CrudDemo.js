@@ -32,10 +32,20 @@ const CrudDemo = () => {
     };
 
     const TableAction = (props) => {
-      const deleteById=()=>{
+    const deleteById=()=>{
+      const service = new PeopleService();
+      service.deletePersonById(props.id).then(response=>{
+        console.log("is it deleted "+ response);
+        if(response.status===202){
+          console.log("is it deleted "+ response);
+          // show notification msge when deleted successfull
+        }else{
+          // throw error msge.
+        }
+      });
 
       }
-      
+
       const history=useHistory();
       const ShowPersonInfo=()=>{
                    

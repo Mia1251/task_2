@@ -4,17 +4,29 @@ import { useHistory, useParams } from 'react-router-dom';
 import PeopleService from '../service/PeopleService';
 
 const PersonDetails = () => {
- const history = useHistory();
+
+
+    const history = useHistory();
     const params=useParams();
     const [person, setPerson]=useState({id:0,firstName:"",lastName:"",email:"",title:""}); //set the variable template 
+    
+    
     useEffect(()=>{
         console.log("I want to see the problem"+ params.id);
         const service=new PeopleService();
         service.getPersonById(params.id).then(response=>{
+            //todo: update the person state
             console.log("I want to see the problem"+ response);       
+
+            if(response.status === 200){
+                setPerson(response.data)
+            }
+            
         });
 
     },[]); //syntax for useEffect empty Dependency[]
+
+
 
 
     return (
