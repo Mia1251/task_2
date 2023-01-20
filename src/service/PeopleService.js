@@ -7,7 +7,7 @@ class PeopleService{
     };
     
     getPersonById = async (id) => {
-        return await axios.get(baseURL + id).then(response => response);
+        return await axios.get(baseURL + '/' + id).then(response => response);
     };
     
     savePerson = async (data) => {
@@ -19,7 +19,7 @@ class PeopleService{
     };
     
     deletePersonById = async (id) => {
-        return await axios.delete(baseURL + id).then(response => response);
+        return await axios.delete(baseURL +'/' + id).then(response => response);
     };
 
 }
