@@ -1,5 +1,6 @@
 
-import React, { useEffect, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
 import PeopleService from '../service/PeopleService';
 
@@ -7,6 +8,7 @@ import PeopleService from '../service/PeopleService';
 const CrudDemo = () => {
 
   const [persons, setPersons] = useState([]);
+  const [reload, setReload]=useState(false);
 
   useEffect(() => {
     const service = new PeopleService();
@@ -14,7 +16,7 @@ const CrudDemo = () => {
       setPersons(response.data);
     });
    
-  }, []);
+  }, [reload]);
 
   const Table = () => {
 
@@ -89,13 +91,60 @@ const CrudDemo = () => {
     );
   };
 
+const Form =()=>{
+ const{register,handleSubmit,reset,formState:{errors}}=useForm();
 
+ const savePerson =(data)=>{
 
+  console.log(data);
+  const service= new PeopleService();
+  service.savePerson(data).then(response=>{
+if(response.status===201){
+  setReload(!reload);
+  // set the message satate
+}else{
+  // throw API error
+}
+  });
+ }
 
+  
+ 
+  return(
+    <Fragment>
+    <form className='form-control' onSubmit={handleSubmit(savePerson)}>
+      <div className='row mb-3'>
+        <div className='col-6'>
+          <input type="text" className='form-control'{...register("firstName",{required:true})} placeholder='Enter First Name'></input>
+          {errors.firstName && <span className='text-danger'>First name is needed</span>}
+        </div>
+        <div className='col-6'>
+          <input type="text" className='form-control'{...register("lastName",{required:true})} placeholder='Enter Last Name'></input>
+          {errors.lastName && <span className='text-danger'>last name is required</span>}
+        </div>
+      </div>
 
-
+      <div className='row mb-3'>
+        <div className='col'>
+        <input type="text" className='form-control'{...register("email",{required:true})} placeholder='Enter Email'></input>
+        {errors.email && <span className='text-danger'>email is requred</span>}
+        </div>
+      </div>
+      <div className='row mb-3'>
+        <div className='col'>
+        <input type="text" className='form-control'{...register("title")}placeholder='Enter Title'></input>
+        </div>
+      </div>
+      <button type='submit' className='btn btn-success m-2'>Add</button>
+      <button type='button' className='btn btn-danger'onClick={()=>reset()}>Reset</button>
+    </form>
+    </Fragment>
+  );
+  
+}
   return (
     <div>
+      <Form/>
       <Table />
     </div>
   );
